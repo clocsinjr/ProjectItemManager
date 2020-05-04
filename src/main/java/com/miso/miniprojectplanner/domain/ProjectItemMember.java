@@ -18,8 +18,7 @@ public class ProjectItemMember {
     @ManyToOne
     private Member member;
 
-    public ProjectItemMember(){
-    }
+    public ProjectItemMember(){}
     public ProjectItemMember(String role, Member member){
         this.role = role;
         this.member = member;

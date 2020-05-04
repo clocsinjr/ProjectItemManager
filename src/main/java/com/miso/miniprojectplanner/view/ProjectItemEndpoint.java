@@ -31,10 +31,9 @@ public class ProjectItemEndpoint {
     }
 
     @PostMapping("/makeProjectItem")
-    public String makeProjectItem(@RequestBody ProjectItem project){
+    public void makeProjectItem(@RequestBody ProjectItem project){
         System.out.println("> in makeProjectItem(): " + project.toString());
         piService.saveProjectItem(project);
-        return "created new projectItem";
     }
 
     @GetMapping("getAllMembers")
@@ -78,12 +77,16 @@ public class ProjectItemEndpoint {
         return "deleted project with id '" + mpid + "'";
     }
 
-    @PostMapping("initTestTable")
+    @PostMapping("/initTestTable")
     public void initTestTable(){
+        System.out.println("initiating table");
         piService.saveMember(new Member("AAA"));
         piService.saveMember(new Member("BBB"));
         piService.saveMember(new Member("Carlo"));
         piService.saveMember(new Member("DDD"));
+        Member leader = new Member("Leader Account");
+        leader.setLevel(Member.Rights.LEADER);
+        piService.saveMember(leader);
 
         ProjectItem newProject = new ProjectItem();
         newProject.setTitle("Project initialized by initTestTable");
@@ -98,7 +101,9 @@ public class ProjectItemEndpoint {
                 "imperdiet nisi. Fusce quam eros, vestibulum non tincidunt non, commodo in ex. Donec interdum condimentum " +
                 "quam, ac volutpat enim facilisis vel. Proin luctus metus mollis est dictum volutpat. Vestibulum ante " +
                 "ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut egestas quam lacus.");
-        newProject.setAllowedRoles(new ArrayList<>(Arrays.asList("main", "backup", "support")));
+
+        newProject.setAllowedRoles(new ArrayList<>(Arrays.asList("main", "background", "support")));
+
         piService.saveProjectItem(newProject);
     }
 
