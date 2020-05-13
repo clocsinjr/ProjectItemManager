@@ -9,7 +9,7 @@ public class ProjectItemMember {
     public enum Status {REQUESTED, ACCEPTED, ASSIGNED;}
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     private String role;

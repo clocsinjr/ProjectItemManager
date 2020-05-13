@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,12 @@ public class ProjectItemService {
         if (foundMember.isPresent()){ return foundMember.get();}
         else {return null;}
     }
+    public Member findMemberByName(String name){
+        Optional<Member> foundMember = memRepo.findByName(name);
+        if (foundMember.isPresent()){ return foundMember.get();}
+        else {return null;}
+    }
+
     public ProjectItemMember findProjectItemMemberById(long id){
         Optional<ProjectItemMember> foundPiMem = piMemRepo.findById(id);
         if (foundPiMem.isPresent())
@@ -74,9 +81,19 @@ public class ProjectItemService {
         piRepo.save(project);
     }
     public void removeProjectItemMember(ProjectItem project, Member mem){
-        ProjectItemMember piMem = piMemRepo.findByMember(mem);
-        project.removePiMember(piMem);
-        piRepo.save(project);
+        for(ProjectItemMember piMem : new ArrayList<ProjectItemMember>(project.getMembers())){
+            if (piMem.getMember().getId() == mem.getId()){
+                System.out.println("removing in: ProjectItemService, removeProjectItemMember()");
+                project.removePiMember(piMem);
+
+                Optional<ProjectItemMember> foundPiMem = piMemRepo.findById(piMem.getId());
+                if (foundPiMem.isPresent())
+                    piMemRepo.delete(foundPiMem.get());
+
+                piRepo.save(project);
+            }
+        }
+
     }
     public void deleteProjectItem(ProjectItem project){
         System.out.println("deleting project item with id '" + project.getId() + "'");

@@ -10,4 +10,5 @@ import java.util.List;
 @Component
 public interface ProjectItemMemberRepository extends CrudRepository<ProjectItemMember, Long> {
     ProjectItemMember findByMember(Member member);
+    ProjectItemMember findById(Member member);
 }
