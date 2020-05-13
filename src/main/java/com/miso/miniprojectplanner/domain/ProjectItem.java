@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 public class ProjectItem {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     private String title;
@@ -51,6 +51,7 @@ public class ProjectItem {
         this.members.add(mem);
     }
     public void removePiMember(ProjectItemMember mem){
+        System.out.println("[PreRemove] remove link for member: " + mem.getMember().getName());
         this.members.remove(mem);
     }
 

@@ -57,7 +57,7 @@ public class ProjectItemEndpoint {
         return "succesfully added '" + member.getName() + "' to project '" + project.getTitle() + "'";
     }
 
-    @PostMapping("/removeMember")
+    @DeleteMapping("/removeMember")
     public String removeMember(@RequestParam long projId, @RequestParam long memId){
         ProjectItem project = piService.findProjectItemById(projId);
         Member member = piService.findMemberById(memId);
@@ -80,31 +80,36 @@ public class ProjectItemEndpoint {
     @PostMapping("/initTestTable")
     public void initTestTable(){
         System.out.println("initiating table");
-        piService.saveMember(new Member("AAA"));
-        piService.saveMember(new Member("BBB"));
-        piService.saveMember(new Member("Carlo"));
-        piService.saveMember(new Member("DDD"));
+        Member memA = new Member("AAA");
+        Member memB = new Member("BBB");
+        Member memCarlo = new Member("Carlo");
+        Member memD = new Member("DDD");
         Member leader = new Member("Leader Account");
         leader.setLevel(Member.Rights.LEADER);
+
+        piService.saveMember(memA);
+        piService.saveMember(memB);
+        piService.saveMember(memCarlo);
+        piService.saveMember(memD);
         piService.saveMember(leader);
 
-        ProjectItem newProject = new ProjectItem();
-        newProject.setTitle("Project initialized by initTestTable");
-        newProject.setDescription("this project has been initialized by a developer endpoint to test more effectively");
-        piService.saveProjectItem(newProject);
+        ProjectItem newProject1 = new ProjectItem();
+        newProject1.setTitle("Dance Example: Choreography cover");
+        newProject1.setDescription("Cover choreography by 1MILLION Dance Studio, Ed Sheeran - Galway Girl");
+        newProject1.setAllowedRoles(new ArrayList<>(Arrays.asList("lead dancer", "main dancer", "background dancer")));
+        piService.saveProjectItem(newProject1);
 
-        newProject = new ProjectItem();
-        newProject.setTitle("2nd Project");
-        newProject.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl mi, semper " +
+
+        ProjectItem newProject2 = new ProjectItem();
+        newProject2.setTitle("Project initialized by initTestTable");
+        newProject2.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum nisl mi, semper " +
                 "at ex in, molestie dapibus tortor. Phasellus nisl ipsum, dictum quis suscipit nec, faucibus vitae quam. " +
                 "Nunc iaculis neque at leo ultrices venenatis. Maecenas lobortis enim eleifend, elementum sem ut, " +
                 "imperdiet nisi. Fusce quam eros, vestibulum non tincidunt non, commodo in ex. Donec interdum condimentum " +
                 "quam, ac volutpat enim facilisis vel. Proin luctus metus mollis est dictum volutpat. Vestibulum ante " +
                 "ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut egestas quam lacus.");
 
-        newProject.setAllowedRoles(new ArrayList<>(Arrays.asList("main", "background", "support")));
-
-        piService.saveProjectItem(newProject);
+        newProject2.setAllowedRoles(new ArrayList<>(Arrays.asList("Role 1", "Role 2", "Role 3")));
+        piService.saveProjectItem(newProject2);
     }
-
 }

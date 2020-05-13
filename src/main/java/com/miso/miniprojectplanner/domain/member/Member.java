@@ -1,18 +1,16 @@
 package com.miso.miniprojectplanner.domain.member;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Member {
     public enum Rights {MEMBER, LEADER;}
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
+    @Column(unique=true)
     private String name;
     private Rights level = Rights.MEMBER;
 
